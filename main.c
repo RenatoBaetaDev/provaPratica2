@@ -3,6 +3,7 @@
 // #include <time.h> //include das funcoes de tempo
 // #include "matrizADJ.h" //entrada da Matriz de Adjacências
 #include "lista_adj.h" 
+#include "matrizADJ.h" 
 
 int main()
 {
@@ -16,9 +17,27 @@ int main()
     addAresta(dir_grafo, 1 , 4);
     addAresta(dir_grafo, 2 , 3);
     addAresta(dir_grafo, 3 , 4);    
+    addAresta(dir_grafo, 4 , 20);    
 
     printf("\n GRAFO DIRECIONADO - DIGRAFO \n");
     mostraGrafo(dir_grafo);
+    destroiGRAFO(dir_grafo);
+
+    tipo_digrafo *digrafo = criaDIGRAFO(5);
+    insere_arco_digrafo(digrafo, 0, 1);
+    insere_arco_digrafo(digrafo, 0, 4);
+    insere_arco_digrafo(digrafo, 1, 2);
+    insere_arco_digrafo(digrafo, 2, 3);
+    insere_arco_digrafo(digrafo, 3, 0);
+    insere_arco_digrafo(digrafo, 3, 4);
+
+    mostra_digrafo(digrafo);
+
+    remove_arco_digrafo(digrafo, 0, 4);
+    remove_arco_digrafo(digrafo, 2, 3);
+
+    mostra_digrafo(digrafo);
+
 
     int exerc;
 

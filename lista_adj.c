@@ -54,14 +54,33 @@ void mostraGrafo(grafo_t *grafo)
     for (i = 0; i < grafo->num_vertices; i++)
     {
         no_t *Atual = grafo->VETOR_list_adj[i].prox;
+        printf("[%d] -> ", grafo->VETOR_list_adj[i].vertice);        
         while (Atual)
-        {
+        {            
             no_t *tmp = Atual;
             Atual = Atual->prox;
-            printf("%d \n", tmp->vertice);
+            printf("[%d] -> ", tmp->vertice);        
         }        
+        printf(" NULL \n");
     }
 }
+
+// void mostraGrafo(grafo_t *grafo)
+// {
+//     int i;
+//     for (i = 0; i < grafo->num_vertices; i++)
+//     {
+//         no_t *Atual = grafo->VETOR_list_adj[i].prox;        
+//         printf("[%d] -> ", Atual->vertice);
+//         while (Atual)
+//         {
+//             no_t *tmp = Atual;
+//             Atual = Atual->prox;
+//             printf("[%d] ->  ", tmp->vertice);
+//         }        
+//         printf(" NULL \n");
+//     }
+// }
 
 void destroiGRAFO(grafo_t* grafo)
 {
