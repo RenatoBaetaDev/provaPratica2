@@ -147,6 +147,32 @@ int main()
                 break;
             }
 
+            case 6:
+            {
+                grafo_t *dir_grafo = criaGRAFO(10);
+
+                addAresta(dir_grafo, 1 , 9);                                 
+                addAresta(dir_grafo, 1 , 2);                                 
+                addAresta(dir_grafo, 2 , 3);                                 
+                addAresta(dir_grafo, 3 , 5);                                 
+                addAresta(dir_grafo, 3 , 6);                                 
+                addAresta(dir_grafo, 4 , 2);                                 
+                addAresta(dir_grafo, 4 , 7);                                 
+                addAresta(dir_grafo, 5 , 4);                                 
+                addAresta(dir_grafo, 5 , 3);                                 
+                addAresta(dir_grafo, 6 , 8);                                 
+                addAresta(dir_grafo, 7 , 8);                                 
+                addAresta(dir_grafo, 8 , 5);         
+
+                int **matriz = BFS(dir_grafo, 5);
+
+                imprimeBFS(matriz, 10);
+
+                matriz = DFS(dir_grafo);
+
+                break;
+            }
+
             case 0:
             {
                 printf("Programa parou de executar com sucesso! \n");
@@ -169,3 +195,18 @@ int main()
     return 0;
 }
 
+// typedef struct no 
+// {
+//     int vertice;
+//     int cor;
+//     int pai;
+//     int tempInic;
+//     int tempoFim;
+//     struct no *prox;
+// }no_t;
+
+// typedef struct grafo
+// {
+//     int num_vertices;
+//     no_t *VETOR_list_adj;
+// }grafo_t;

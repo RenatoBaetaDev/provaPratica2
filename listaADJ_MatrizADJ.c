@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "listaADJ_MatrizADJ.h"
 
+int tempo;
 
 Fila* criaFila(void){
 	Fila *f = (Fila*) malloc (sizeof(Fila));
@@ -268,6 +269,7 @@ int ehOrientado(tipo_digrafo *digrafo)
     return orientado;
 }
 
+//RECEBE UMA LISTA DE ADJACENCIAS
 int **BFS(grafo_t *grafo, int s)
 {    
     int qtdeDeNos = grafo->num_vertices;
@@ -287,14 +289,9 @@ int **BFS(grafo_t *grafo, int s)
     int nulo = 99999;
     
 
-    for (i = 0; i < linhas; i++){
-        if ( i == no)
-        {
-            for (int z = 0; z < qtdeDeNos; z++)
-            {          
-                matriz[i][z] = z;                
-            }
-        }
+    for (int z = 0; z < qtdeDeNos; z++)
+    {          
+        matriz[no][z] = z;                
     }
 
     for (i = 1; i < linhas; i++){
@@ -325,14 +322,7 @@ int **BFS(grafo_t *grafo, int s)
     {
         int noAtual = retira(Q);
 
-        no_t *Atual = grafo->VETOR_list_adj[noAtual].prox;
-
-        // while (Atual)
-        // {            
-        //     int v = Atual->vertice;
-        //     printf("%d \n", matriz[corNo][v]);        
-        //     Atual = Atual->prox;
-        // }        
+        no_t *Atual = grafo->VETOR_list_adj[noAtual].prox;    
 
         while (Atual)
         {            
@@ -351,24 +341,163 @@ int **BFS(grafo_t *grafo, int s)
     }
 
 
-
-	// for (int origem = 0; origem < linhas; origem++){
-    //     if (origem == corNo)
-    //         printf("Cor");
-    //     else if (origem == distNo)
-    //         printf("Dist");
-    //     else if (origem == paiNo) 
-    //         printf("Pai");
-    //     else 
-    //         printf("No");
-
-	// 	for (int destino = 0; destino < qtdeDeNos; destino++)
-	// 	    printf(" %d", matriz[origem][destino]);
-	// 	printf("  \n");    
-    // }
-
-
     return matriz;
 }
 
-//void DFS(grafo_t *grafo, int n);
+
+void imprimeBFS(int **matriz, int qtdeDeNos)
+{
+    int linhas = 4;
+    int no = 0;
+    int corNo = 1;
+    int distNo = 2;
+    int paiNo = 3;
+
+    int preto = 0;
+    int branco = 1;
+    int cinza = 2;
+    int infinito = -1;
+    int valor;
+    int nulo = 99999;
+
+    printf(" -------- BFS -------- \n");
+
+
+	for (int linha = 0; linha < linhas; linha++){
+        if (linha == corNo)
+            printf("Cor   ");
+        else if (linha == distNo)
+            printf("Dist  ");
+        else if (linha == paiNo) 
+            printf("Pai   ");
+        else 
+            printf("No    ");
+
+		for (int no = 1; no < qtdeDeNos; no++)
+        {
+            if (matriz[linha][no] == 99999)
+                printf("| %s |", "NIL");
+            else if(matriz[linha][no] == -1)
+                printf("| %d  |", matriz[linha][no]);            
+            else 
+                printf("|  %d  |", matriz[linha][no]);            
+        }		    
+		printf("  \n");    
+    }
+}
+
+
+// void dfs_visit(int no, int **matriz)
+void dfs_visit(int no, no_t noStruct, int **matriz)
+{
+    int corNo = 1;
+    int paiNo = 2;
+    int tempInic = 3;
+    int tempoFim = 4;  
+    int preto = 0;
+    int branco = 1;
+    int cinza = 2;      
+
+
+    matriz[corNo][no] = cinza;
+    tempo += 1;
+    matriz[tempInic][no] = tempo;
+
+    no_t *Atual = noStruct.prox;
+    while (Atual)
+    {            
+        if (matriz[corNo][Atual->vertice] == branco)
+        {
+            matriz[paiNo][Atual->vertice] == no;        
+            dfs_visit(Atual->vertice, *Atual, matriz);
+        }
+        Atual = Atual->prox;
+    }     
+
+    // for (1==1)
+    // {
+    //     if (matriz[corNo][noAtual] == branco)
+    //     {
+    //         matriz[paiNo][noAtual] = no;
+    //         dfs_visit(no);
+    //     }
+    // }
+
+    matriz[corNo][no] = preto;
+    tempo += 1;
+    matriz[tempoFim][no] = tempo;
+}
+
+int **DFS(grafo_t *grafo)
+{
+    int qtdeDeNos = grafo->num_vertices;
+    int linhas = 5;
+    int no = 0;
+    int corNo = 1;
+    int paiNo = 2;
+    int tempInic = 3;
+    int tempoFim = 4;
+    int **matriz  = criaMatriz(linhas, qtdeDeNos, 0);
+    int i = 0;
+
+    int preto = 0;
+    int branco = 1;
+    int cinza = 2;
+    int infinito = -1;
+    int valor;
+    int nulo = 99999;
+    
+    for (no = 0; no < grafo->num_vertices; no++)
+    {
+        matriz[0][no] = no;
+        matriz[corNo][no] = branco;
+        matriz[paiNo][no] = nulo;
+    }
+
+    tempo = 0;
+
+    for (no = 0; no < grafo->num_vertices; no++)
+        if (matriz[corNo][no] == branco)
+        {
+            dfs_visit(no, grafo->VETOR_list_adj[i], matriz);
+            // dfs_visit(no, matriz);
+        }
+
+
+        // no_t *Atual = grafo->VETOR_list_adj[i].prox;
+        // while (Atual)
+        // {            
+        //     if (Atual->vertice == i)   
+        //         ciclos += 1;         
+        //     Atual = Atual->prox;
+        // }  
+
+    printf("\n \n -------- BFS -------- \n");
+
+
+	for (int linha = 0; linha < linhas; linha++){
+        if (linha == corNo)
+            printf("Cor   ");
+        else if (linha == tempInic)
+            printf("T. I. ");
+        else if (linha == tempoFim)
+            printf("T. I. ");            
+        else if (linha == paiNo) 
+            printf("Pai   ");
+        else 
+            printf("No    ");
+
+		for (int no = 1; no < qtdeDeNos; no++)
+        {
+            if (matriz[linha][no] == 99999)
+                printf("| %s |", "NIL");
+            else if(matriz[linha][no] == -1)
+                printf("| %d  |", matriz[linha][no]);            
+            else 
+                printf("|  %d  |", matriz[linha][no]);            
+        }		    
+		printf("  \n");    
+    }
+
+    return matriz;    
+}

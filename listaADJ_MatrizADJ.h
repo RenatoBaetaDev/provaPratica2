@@ -69,5 +69,8 @@ int ehOrientado(tipo_digrafo *digrafo);
 
 
 int **BFS(grafo_t *grafo, int n);
-void DFS(grafo_t *grafo, int n);
+void imprimeBFS(int **matriz, int qtdeDeNos);
+
+void dfs_visit(int no, no_t noStruct, int **matriz);
+int **DFS(grafo_t *grafo);
 
