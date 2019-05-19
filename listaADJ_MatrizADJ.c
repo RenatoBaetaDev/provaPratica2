@@ -388,8 +388,9 @@ void imprimeBFS(int **matriz, int qtdeDeNos)
 
 
 // void dfs_visit(int no, int **matriz)
-void dfs_visit(int no, no_t noStruct, int **matriz)
+void dfs_visit(int no, grafo_t *grafo, int **matriz)
 {
+
     int corNo = 1;
     int paiNo = 2;
     int tempInic = 3;
@@ -403,25 +404,16 @@ void dfs_visit(int no, no_t noStruct, int **matriz)
     tempo += 1;
     matriz[tempInic][no] = tempo;
 
-    no_t *Atual = noStruct.prox;
+    no_t *Atual = grafo->VETOR_list_adj[no].prox;
     while (Atual)
     {            
         if (matriz[corNo][Atual->vertice] == branco)
         {
-            matriz[paiNo][Atual->vertice] == no;        
-            dfs_visit(Atual->vertice, *Atual, matriz);
+            matriz[paiNo][Atual->vertice] = no;        
+            dfs_visit(Atual->vertice, grafo, matriz);
         }
         Atual = Atual->prox;
     }     
-
-    // for (1==1)
-    // {
-    //     if (matriz[corNo][noAtual] == branco)
-    //     {
-    //         matriz[paiNo][noAtual] = no;
-    //         dfs_visit(no);
-    //     }
-    // }
 
     matriz[corNo][no] = preto;
     tempo += 1;
@@ -447,7 +439,7 @@ int **DFS(grafo_t *grafo)
     int valor;
     int nulo = 99999;
     
-    for (no = 0; no < grafo->num_vertices; no++)
+    for (no = 1; no < grafo->num_vertices; no++)
     {
         matriz[0][no] = no;
         matriz[corNo][no] = branco;
@@ -456,23 +448,11 @@ int **DFS(grafo_t *grafo)
 
     tempo = 0;
 
-    for (no = 0; no < grafo->num_vertices; no++)
+    for (no = 1; no < grafo->num_vertices; no++)
         if (matriz[corNo][no] == branco)
-        {
-            dfs_visit(no, grafo->VETOR_list_adj[i], matriz);
-            // dfs_visit(no, matriz);
-        }
+            dfs_visit(no, grafo, matriz);         
 
-
-        // no_t *Atual = grafo->VETOR_list_adj[i].prox;
-        // while (Atual)
-        // {            
-        //     if (Atual->vertice == i)   
-        //         ciclos += 1;         
-        //     Atual = Atual->prox;
-        // }  
-
-    printf("\n \n -------- BFS -------- \n");
+    printf("\n \n -------- DFS -------- \n");
 
 
 	for (int linha = 0; linha < linhas; linha++){
@@ -481,7 +461,7 @@ int **DFS(grafo_t *grafo)
         else if (linha == tempInic)
             printf("T. I. ");
         else if (linha == tempoFim)
-            printf("T. I. ");            
+            printf("T. F. ");            
         else if (linha == paiNo) 
             printf("Pai   ");
         else 
@@ -491,7 +471,7 @@ int **DFS(grafo_t *grafo)
         {
             if (matriz[linha][no] == 99999)
                 printf("| %s |", "NIL");
-            else if(matriz[linha][no] == -1)
+            else if(matriz[linha][no] > 9)
                 printf("| %d  |", matriz[linha][no]);            
             else 
                 printf("|  %d  |", matriz[linha][no]);            

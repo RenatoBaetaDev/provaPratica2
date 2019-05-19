@@ -154,8 +154,8 @@ int main()
                 addAresta(dir_grafo, 1 , 9);                                 
                 addAresta(dir_grafo, 1 , 2);                                 
                 addAresta(dir_grafo, 2 , 3);                                 
+                addAresta(dir_grafo, 3 , 6);  
                 addAresta(dir_grafo, 3 , 5);                                 
-                addAresta(dir_grafo, 3 , 6);                                 
                 addAresta(dir_grafo, 4 , 2);                                 
                 addAresta(dir_grafo, 4 , 7);                                 
                 addAresta(dir_grafo, 5 , 4);                                 
