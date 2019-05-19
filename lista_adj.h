@@ -19,3 +19,4 @@ no_t *criaNO(int v);
 void addAresta(grafo_t *grafo, int origem, int dest);
 void mostraGrafo(grafo_t *grafo);
 void destroiGRAFO(grafo_t* grafo);
+grafo_t *matrizParaLista(tipo_digrafo *digrafo);

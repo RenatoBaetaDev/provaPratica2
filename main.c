@@ -2,12 +2,14 @@
 #include <stdlib.h>
 // #include <time.h> //include das funcoes de tempo
 // #include "matrizADJ.h" //entrada da Matriz de Adjacências
-#include "lista_adj.h" 
-#include "matrizADJ.h" 
+// #include "lista_adj.h" 
+// #include "matrizADJ.h" 
+#include "listaADJ_MatrizADJ.h"
 
 int main()
 {
 
+    //lista de Adjacencia
     grafo_t *dir_grafo = criaGRAFO(5);
 
     addAresta(dir_grafo, 0 , 1);
@@ -17,26 +19,27 @@ int main()
     addAresta(dir_grafo, 1 , 4);
     addAresta(dir_grafo, 2 , 3);
     addAresta(dir_grafo, 3 , 4);    
-    addAresta(dir_grafo, 4 , 20);    
 
-    printf("\n GRAFO DIRECIONADO - DIGRAFO \n");
-    mostraGrafo(dir_grafo);
-    destroiGRAFO(dir_grafo);
+    //printf("\n GRAFO DIRECIONADO - DIGRAFO \n");
+    //mostraGrafo(dir_grafo);
+    //destroiGRAFO(dir_grafo);
 
+    //matriz de Adjacencia
     tipo_digrafo *digrafo = criaDIGRAFO(5);
     insere_arco_digrafo(digrafo, 0, 1);
     insere_arco_digrafo(digrafo, 0, 4);
     insere_arco_digrafo(digrafo, 1, 2);
+    insere_arco_digrafo(digrafo, 1, 3);
+    insere_arco_digrafo(digrafo, 1, 4);
     insere_arco_digrafo(digrafo, 2, 3);
-    insere_arco_digrafo(digrafo, 3, 0);
     insere_arco_digrafo(digrafo, 3, 4);
 
-    mostra_digrafo(digrafo);
+    //mostra_digrafo(digrafo);
 
-    remove_arco_digrafo(digrafo, 0, 4);
-    remove_arco_digrafo(digrafo, 2, 3);
+    // remove_arco_digrafo(digrafo, 0, 4);
+    // remove_arco_digrafo(digrafo, 2, 3);
 
-    mostra_digrafo(digrafo);
+    //mostra_digrafo(digrafo);
 
 
     int exerc;
@@ -59,6 +62,31 @@ int main()
 
         switch (exerc)
         {
+            case 1:
+            {
+                mostra_digrafo(digrafo);
+                grafo_t *listaDigrafo = matrizParaLista(digrafo);
+                printf("\n\n      |");
+                printf("\n      v \n\n");
+                mostraGrafo(listaDigrafo);
+                break;
+            }
+
+            case 2:
+            {
+                mostraGrafo(dir_grafo);
+                tipo_digrafo *matrizDigrafo = listaParaMatriz(dir_grafo);
+                printf("\n\n      |");
+                printf("\n      v \n\n");               
+                mostra_digrafo(matrizDigrafo);                
+                break;
+            }
+
+            case 3:
+            {
+                
+                break;
+            }
 
             case 0:
             {
