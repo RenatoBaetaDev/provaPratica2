@@ -18,7 +18,10 @@ int main()
     addAresta(dir_grafo, 1 , 3);
     addAresta(dir_grafo, 1 , 4);
     addAresta(dir_grafo, 2 , 3);
-    addAresta(dir_grafo, 3 , 4);    
+    addAresta(dir_grafo, 3 , 4);
+    addAresta(dir_grafo, 0 , 0);        
+    addAresta(dir_grafo, 4 , 4);    
+
 
     //printf("\n GRAFO DIRECIONADO - DIGRAFO \n");
     //mostraGrafo(dir_grafo);
@@ -33,6 +36,8 @@ int main()
     insere_arco_digrafo(digrafo, 1, 4);
     insere_arco_digrafo(digrafo, 2, 3);
     insere_arco_digrafo(digrafo, 3, 4);
+    insere_arco_digrafo(digrafo, 0, 0);
+    insere_arco_digrafo(digrafo, 4, 4);
 
     //mostra_digrafo(digrafo);
 
@@ -84,7 +89,61 @@ int main()
 
             case 3:
             {
-                
+                mostraQtdeDeCiclos(dir_grafo);
+                break;
+            }
+
+            case 4:
+            {
+
+                int **matriz = BFS(dir_grafo, 1);
+                int qtdeDeNos = dir_grafo->num_vertices;
+                int linhas = 4;
+                int corNo = 1;
+                int distMatriz = 2;
+                int paiMatriz = 3;
+
+
+                int conexo = 1;
+                for (int no = 0; no < qtdeDeNos; no++)
+                    if (matriz[corNo][no] == 1)
+                        conexo = 0;
+
+                if (conexo)
+                    printf("O grafo eh conexo");
+                else    
+                    printf("O grafo nao eh conexo");
+
+                break;
+            }
+
+            case 5:
+            {
+                int orientacao = ehOrientado(digrafo);
+                if (orientacao)
+                    printf("O grafo eh orientado \n");
+                else
+                    printf("O grafo nao eh orientado \n");
+
+
+                tipo_digrafo *nOrientado = criaDIGRAFO(5);
+                insere_arco_grafo(nOrientado, 0, 1);
+                insere_arco_grafo(nOrientado, 0, 4);
+                insere_arco_grafo(nOrientado, 1, 2);
+                insere_arco_grafo(nOrientado, 1, 3);
+                insere_arco_grafo(nOrientado, 1, 4);
+                insere_arco_grafo(nOrientado, 2, 3);
+                insere_arco_grafo(nOrientado, 3, 4);
+                insere_arco_grafo(nOrientado, 0, 0);
+                insere_arco_grafo(nOrientado, 4, 4);                    
+
+                orientacao = ehOrientado(nOrientado);
+                if (orientacao)
+                    printf("O grafo eh orientado \n");
+                else
+                    printf("O grafo nao eh orientado \n");                    
+
+
                 break;
             }
 

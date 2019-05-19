@@ -2,6 +2,64 @@
 #include <stdlib.h>
 #include "listaADJ_MatrizADJ.h"
 
+
+Fila* criaFila(void){
+	Fila *f = (Fila*) malloc (sizeof(Fila));
+	f->ini = f->fim = NULL;
+	return f;
+}
+
+Fila* insere(Fila* f, int v){
+	No* novo = (No*) malloc (sizeof(No));
+	novo->info = v;
+	novo->prox = NULL;
+	if(f->fim != NULL)
+		f->fim->prox = novo;
+	f->fim = novo;
+	if (f->ini==NULL)
+		f->ini = f->fim;
+	return f;
+}
+
+int retira(Fila* f){
+	int v;
+	if (vaziaFila(f))
+	{
+		printf("Fila Vazia.\n");
+		exit(1);
+	}
+	v = f->ini->info;
+	No* p = f->ini->prox;
+	free(f->ini);
+	f->ini = p;
+	if (f->ini == NULL)
+		f->fim = NULL;
+	return v;
+}
+
+int vaziaFila(Fila* f){
+	return (f->ini==NULL);
+}
+
+void liberaFila(Fila *f){
+	No* q = f->ini;
+	while(q!=NULL)
+	{
+		No *t = q->prox;
+		free(q);
+		q = t;
+	}
+
+	free(f);
+}
+
+void imprimeFila(Fila *f){
+	printf("Imprimindo Fila!\n");
+	No *q;
+	for (q = f->ini; q!= NULL; q= q->prox)
+		printf("%d\n", q->info);
+}
+
 // LISTA DE ADJ
 
 grafo_t *criaGRAFO(int n)
@@ -104,6 +162,25 @@ grafo_t *matrizParaLista(tipo_digrafo *digrafo)
     return grafo;
 }
 
+void mostraQtdeDeCiclos(grafo_t *grafo)
+{
+    int i;
+    int ciclos = 0;
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        no_t *Atual = grafo->VETOR_list_adj[i].prox;
+        while (Atual)
+        {            
+            if (Atual->vertice == i)   
+                ciclos += 1;         
+            Atual = Atual->prox;
+        }        
+    }    
+    if (ciclos == 0)
+        printf("\n GRAFO ACICLICO ");
+    else    
+        printf("\n GRAFO CICLICO \n Quantidade de Ciclos = %d", ciclos);
+}
 
 // MATRIZ DE ADJ
 
@@ -143,9 +220,9 @@ void mostra_digrafo(tipo_digrafo *digrafo){
 		for (destino = 0; destino < digrafo->numVertices; destino++)
 		    printf(" %d", digrafo->matriz_adj[origem][destino]);
 		printf("  \n");
+    }
 }
 
-}
 void remove_arco_digrafo (tipo_digrafo *digrafo, int origem, int destino){
     if (digrafo->matriz_adj[origem][destino] == 1)
         digrafo->matriz_adj[origem][destino] = 0;
@@ -161,8 +238,8 @@ void remove_arco_grafo(tipo_digrafo *digrafo, int origem, int destino){
     remove_arco_digrafo(digrafo, destino, origem);
 }
 
-tipo_digrafo *listaParaMatriz(grafo_t* grafo){
-
+tipo_digrafo *listaParaMatriz(grafo_t* grafo)
+{
     int n = grafo->num_vertices;
     tipo_digrafo *digrafo = criaDIGRAFO(n);
 
@@ -174,8 +251,124 @@ tipo_digrafo *listaParaMatriz(grafo_t* grafo){
             insere_arco_digrafo(digrafo,i, Atual->vertice);
             Atual = Atual->prox;
         }        
-
     }
 
     return digrafo;
 }
+
+int ehOrientado(tipo_digrafo *digrafo)
+{
+	int origem, destino;
+    int orientado = 0;
+	for ( origem = 0; origem < digrafo->numVertices; origem++){
+		for (destino = origem+1; destino < digrafo->numVertices; destino++)
+            if (digrafo->matriz_adj[origem][destino] != digrafo->matriz_adj[destino][origem])
+                orientado = 1;
+    }    
+    return orientado;
+}
+
+int **BFS(grafo_t *grafo, int s)
+{    
+    int qtdeDeNos = grafo->num_vertices;
+    int linhas = 4;
+    int no = 0;
+    int corNo = 1;
+    int distNo = 2;
+    int paiNo = 3;
+    int **matriz  = criaMatriz(linhas, qtdeDeNos, 0);
+    int i = 0;
+
+    int preto = 0;
+    int branco = 1;
+    int cinza = 2;
+    int infinito = -1;
+    int valor;
+    int nulo = 99999;
+    
+
+    for (i = 0; i < linhas; i++){
+        if ( i == no)
+        {
+            for (int z = 0; z < qtdeDeNos; z++)
+            {          
+                matriz[i][z] = z;                
+            }
+        }
+    }
+
+    for (i = 1; i < linhas; i++){
+        if (i == corNo)
+            valor = branco;
+        else if (i == distNo)
+            valor = infinito;
+        else 
+            valor = nulo;
+
+        for (int z = 0; z < qtdeDeNos; z++)
+        {    
+            if (z==s)  
+                continue;    
+            matriz[i][z] = valor;
+        }           
+    }
+
+    matriz[corNo][s] = cinza;
+    matriz[distNo][s] = 0;
+    matriz[paiNo][s] = nulo;
+
+    Fila *Q = criaFila();
+    Q = insere(Q,s);
+
+
+    while( !vaziaFila(Q) )
+    {
+        int noAtual = retira(Q);
+
+        no_t *Atual = grafo->VETOR_list_adj[noAtual].prox;
+
+        // while (Atual)
+        // {            
+        //     int v = Atual->vertice;
+        //     printf("%d \n", matriz[corNo][v]);        
+        //     Atual = Atual->prox;
+        // }        
+
+        while (Atual)
+        {            
+            int v = Atual->vertice;
+            if (matriz[corNo][v] == branco)
+            {
+                matriz[corNo][v] = cinza;            
+                matriz[distNo][v] = matriz[distNo][noAtual] + 1;
+                matriz[paiNo][v] = noAtual;
+                insere(Q, v);
+            }
+            Atual = Atual->prox;
+        } 
+
+        matriz[corNo][noAtual] = preto;
+    }
+
+
+
+	// for (int origem = 0; origem < linhas; origem++){
+    //     if (origem == corNo)
+    //         printf("Cor");
+    //     else if (origem == distNo)
+    //         printf("Dist");
+    //     else if (origem == paiNo) 
+    //         printf("Pai");
+    //     else 
+    //         printf("No");
+
+	// 	for (int destino = 0; destino < qtdeDeNos; destino++)
+	// 	    printf(" %d", matriz[origem][destino]);
+	// 	printf("  \n");    
+    // }
+
+
+    return matriz;
+}
+
+//void DFS(grafo_t *grafo, int n);
