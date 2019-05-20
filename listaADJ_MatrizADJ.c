@@ -183,6 +183,27 @@ void mostraQtdeDeCiclos(grafo_t *grafo)
         printf("\n GRAFO CICLICO \n Quantidade de Ciclos = %d", ciclos);
 }
 
+void qtdeGrausPorNo(grafo_t *grafo)
+{
+    int i;
+    int grau[grafo->num_vertices];
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        grau[i] = 0;
+        no_t *Atual = grafo->VETOR_list_adj[i].prox;
+        while (Atual)
+        {            
+            grau[i] += 1;
+            Atual = Atual->prox;
+        }        
+    }       
+
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        printf("O no %d tem grau %d \n", i, grau[i] );
+    }
+}
+
 // MATRIZ DE ADJ
 
 tipo_digrafo *criaDIGRAFO(int num_vertices)

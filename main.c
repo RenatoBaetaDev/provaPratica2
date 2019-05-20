@@ -173,6 +173,12 @@ int main()
                 break;
             }
 
+            case 8:
+            {
+                qtdeGrausPorNo(dir_grafo);
+                break;
+            }
+
             case 0:
             {
                 printf("Programa parou de executar com sucesso! \n");

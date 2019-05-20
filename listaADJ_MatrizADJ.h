@@ -53,7 +53,7 @@ void mostraGrafo(grafo_t *grafo);
 void destroiGRAFO(grafo_t* grafo);
 grafo_t *matrizParaLista(tipo_digrafo *digrafo);
 void mostraQtdeDeCiclos(grafo_t *grafo);
-
+void qtdeGrausPorNo(grafo_t *grafo);
 
 //FUNCOES DE MATRIZ
 
