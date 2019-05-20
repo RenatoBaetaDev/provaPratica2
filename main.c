@@ -179,6 +179,69 @@ int main()
                 break;
             }
 
+            case 9:
+            {
+
+                //lista de Adjacencia
+                grafoI *dir_grafo = criaGRAFOInsta(9);
+
+                //Joao 25 = 0
+                //Ana 23 = 1
+                //Jane 30 = 2
+                //Marcos 19 = 3
+                //Felipe 20 = 4
+                //Renata 35 = 5
+                //Bruna 23 = 6
+                //Predo 20 = 7
+                //Caio  20 = 8
+                //1,3,6
+
+                addUsuario(dir_grafo, 0, 25);
+                addUsuario(dir_grafo, 1, 23);
+                addUsuario(dir_grafo, 2, 30);
+                addUsuario(dir_grafo, 3, 19);
+                addUsuario(dir_grafo, 4, 20);
+                addUsuario(dir_grafo, 5, 35);
+                addUsuario(dir_grafo, 6, 23);
+                addUsuario(dir_grafo, 7, 20);
+                addUsuario(dir_grafo, 8, 20);
+
+                addArestaInsta(dir_grafo, 0 , 1);
+                addArestaInsta(dir_grafo, 0 , 7);
+                addArestaInsta(dir_grafo, 0 , 8);
+
+                addArestaInsta(dir_grafo, 1 , 0);
+                addArestaInsta(dir_grafo, 1 , 2);
+                
+                addArestaInsta(dir_grafo, 2 , 7);
+                addArestaInsta(dir_grafo, 2 , 3);
+                addArestaInsta(dir_grafo, 2 , 6);
+
+                addArestaInsta(dir_grafo, 3 , 4);
+                addArestaInsta(dir_grafo, 3 , 5);
+
+                addArestaInsta(dir_grafo, 4 , 3);
+                addArestaInsta(dir_grafo, 4 , 5);
+
+                addArestaInsta(dir_grafo, 6 , 5);
+
+                addArestaInsta(dir_grafo, 7 , 2);
+                addArestaInsta(dir_grafo, 7 , 3);
+                addArestaInsta(dir_grafo, 7 , 6);
+                addArestaInsta(dir_grafo, 7 , 8);
+
+                pessoaMaisPopular(dir_grafo);
+
+                int pessoa;
+                printf(" Digite uma pessoa(int) para descobrir sua quantidade de seguidores. ");
+                scanf("%d", &pessoa);
+                qtdeSeguidores(dir_grafo, pessoa);
+
+                printf(" --- Pessoas que seguem mais velhos --- ");
+                pessoasQueSeguemMaisVelhos(dir_grafo);
+                break;
+            }
+
             case 0:
             {
                 printf("Programa parou de executar com sucesso! \n");

@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+typedef struct noI{
+	int vertice;
+	int idade;
+	struct noI *prox;
+}noI;
+
+typedef struct grafoI
+{
+    int num_vertices;
+    noI *VETOR_list_adj;
+}grafoI;
+
 // FILA
 
 //estruta que define os valores do Nos da fila
@@ -74,3 +87,10 @@ void imprimeBFS(int **matriz, int qtdeDeNos);
 void dfs_visit(int no, grafo_t *grafo, int **matriz);
 int **DFS(grafo_t *grafo);
 
+grafoI * criaGRAFOInsta(int n);
+noI *criaNOInsta(int v);
+void addArestaInsta(grafoI *grafo, int origem, int dest);
+void addUsuario(grafoI *grafo, int no, int idade);
+void pessoaMaisPopular(grafoI *grafo);
+void qtdeSeguidores(grafoI *grafo, int no);
+void pessoasQueSeguemMaisVelhos(grafoI *grafo);

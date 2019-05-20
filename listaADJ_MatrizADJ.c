@@ -502,3 +502,140 @@ int **DFS(grafo_t *grafo)
 
     return matriz;    
 }
+
+grafoI * criaGRAFOInsta(int n)
+{
+    int i;
+    grafoI *grafo = (grafoI*) malloc (sizeof(grafoI));
+    if (!grafo){
+        printf("[ERRO FATAL]: Incapaz de Alocar Memoria para o Grafo \n Saindo.. \n");
+        exit(EXIT_FAILURE);
+    }
+
+    grafo->num_vertices = n;
+    grafo->VETOR_list_adj = (noI*) malloc (n * sizeof(noI));
+    if (!grafo->VETOR_list_adj){
+        printf("[ERRO FATAL]: Incapaz de Alocar Memoria para o Vetor de Lista Adjacente \n Saindo.. \n");
+        exit(EXIT_FAILURE);
+    }
+
+    for(i = 0; i < n; i++)
+        grafo->VETOR_list_adj[i].prox = NULL;
+    
+    return grafo;
+}
+
+noI *criaNOInsta(int v)
+{
+    noI *novoNO = (noI*) malloc (sizeof(noI));
+    if (!novoNO){
+        printf("[ERRO FATAL]: Incapaz de Alocar Memoria para um Novo No \n Saindo.. \n");
+        exit(EXIT_FAILURE);        
+    }
+
+    novoNO->vertice = v;
+    novoNO->idade = 0;
+    novoNO->prox = NULL;
+    return novoNO;
+}
+
+void addArestaInsta(grafoI *grafo, int origem, int dest)
+{
+    noI *novoNO = criaNOInsta(dest);
+    novoNO->idade = grafo->VETOR_list_adj[dest].idade;
+    novoNO->prox = grafo->VETOR_list_adj[origem].prox;
+    grafo->VETOR_list_adj[origem].prox = novoNO;
+}
+
+void addUsuario(grafoI *grafo, int no, int idade)
+{
+    if (grafo)
+    {
+        grafo->VETOR_list_adj[no].idade = idade;
+    }
+}
+void pessoaMaisPopular(grafoI *grafo)
+{
+    int i;
+    int seguidores[grafo->num_vertices];
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        seguidores[i] = 0;
+    }
+
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        noI *Atual = grafo->VETOR_list_adj[i].prox;
+        while (Atual)
+        {            
+            seguidores[Atual->vertice] += 1;
+            Atual = Atual->prox;
+        } 
+    }     
+
+    int maior = seguidores[0];
+    for (i = 1; i < grafo->num_vertices; i++)
+    {
+        if (maior < seguidores[i])
+            maior = seguidores[i];
+    }
+
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        if (maior == seguidores[i])
+            printf("A pessoa com mais seguidores eh %d \n", i);
+    }    
+
+}
+void qtdeSeguidores(grafoI *grafo, int no)
+{
+    int seguidores = 0;
+
+    for (int i = 0; i < grafo->num_vertices; i++)
+    {
+        noI *Atual = grafo->VETOR_list_adj[i].prox;
+        while (Atual)
+        {           
+            if (Atual->vertice == no) 
+                seguidores += 1;
+            Atual = Atual->prox;
+        } 
+    }
+
+      
+    printf(" A quantidade de seguidores dessa pessoa eh %d \n", seguidores);
+
+}
+
+void pessoasQueSeguemMaisVelhos(grafoI *grafo)
+{
+    int i;
+    int seguidores[grafo->num_vertices];
+
+    for (i = 0; i < grafo->num_vertices; i++)
+        seguidores[i] = 0;    
+
+    for (i = 0; i < grafo->num_vertices; i++)
+    {
+        noI *Atual = grafo->VETOR_list_adj[i].prox;
+        if (!Atual)
+            seguidores[i] = -1;
+
+        while (Atual)
+        {           
+            if (Atual->idade <= grafo->VETOR_list_adj[i].idade) 
+                seguidores[i] -= 1;
+            Atual = Atual->prox;
+        } 
+    }
+
+    for (i = 0; i < grafo->num_vertices; i++)
+    {        
+        if ( seguidores[i] == 0)
+        {
+            printf("%d", i);
+            qtdeSeguidores(grafo, i);
+
+        }
+    }
+}
