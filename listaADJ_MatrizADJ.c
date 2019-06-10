@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "listaADJ_MatrizADJ.h"
 
 int tempo;
@@ -547,11 +548,12 @@ void addArestaInsta(grafoI *grafo, int origem, int dest)
     grafo->VETOR_list_adj[origem].prox = novoNO;
 }
 
-void addUsuario(grafoI *grafo, int no, int idade)
+void addUsuario(grafoI *grafo, int no, int idade, char* nome)
 {
     if (grafo)
     {
         grafo->VETOR_list_adj[no].idade = idade;
+        grafo->VETOR_list_adj[no].nome = nome;        
     }
 }
 void pessoaMaisPopular(grafoI *grafo)
@@ -583,13 +585,26 @@ void pessoaMaisPopular(grafoI *grafo)
     for (i = 0; i < grafo->num_vertices; i++)
     {
         if (maior == seguidores[i])
-            printf("A pessoa com mais seguidores eh %d \n", i);
+            printf("A pessoa com mais seguidores eh %s \n", grafo->VETOR_list_adj[i].nome);
     }    
 
 }
-void qtdeSeguidores(grafoI *grafo, int no)
+void qtdeSeguidores(grafoI *grafo, char *nome)
 {
     int seguidores = 0;
+    int no = -1;
+    for (int i = 0; i < grafo->num_vertices; i++)
+    {   
+        printf("Nome atual %s\n", grafo->VETOR_list_adj[i].nome);
+        if ( strcmp(grafo->VETOR_list_adj[i].nome, nome) )        
+            no = i;
+    }
+
+    if (no == -1)
+    {
+        printf("Usuario nao encontrado");
+        return;
+    }
 
     for (int i = 0; i < grafo->num_vertices; i++)
     {
@@ -603,7 +618,7 @@ void qtdeSeguidores(grafoI *grafo, int no)
     }
 
       
-    printf(" A quantidade de seguidores dessa pessoa eh %d \n", seguidores);
+    printf(" A quantidade de seguidores de %s eh %d \n", nome, seguidores);
 
 }
 
@@ -634,7 +649,7 @@ void pessoasQueSeguemMaisVelhos(grafoI *grafo)
         if ( seguidores[i] == 0)
         {
             printf("%d", i);
-            qtdeSeguidores(grafo, i);
+            qtdeSeguidores(grafo, grafo->VETOR_list_adj[i].nome);
 
         }
     }

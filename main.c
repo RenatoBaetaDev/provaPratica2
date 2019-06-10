@@ -196,15 +196,15 @@ int main()
                 //Caio  20 = 8
                 //1,3,6
 
-                addUsuario(dir_grafo, 0, 25);
-                addUsuario(dir_grafo, 1, 23);
-                addUsuario(dir_grafo, 2, 30);
-                addUsuario(dir_grafo, 3, 19);
-                addUsuario(dir_grafo, 4, 20);
-                addUsuario(dir_grafo, 5, 35);
-                addUsuario(dir_grafo, 6, 23);
-                addUsuario(dir_grafo, 7, 20);
-                addUsuario(dir_grafo, 8, 20);
+                addUsuario(dir_grafo, 0, 25, "Joao");
+                addUsuario(dir_grafo, 1, 23, "Ana");
+                addUsuario(dir_grafo, 2, 30, "Jane");
+                addUsuario(dir_grafo, 3, 19, "Marcos");
+                addUsuario(dir_grafo, 4, 20, "Felipe");
+                addUsuario(dir_grafo, 5, 35, "Renata");
+                addUsuario(dir_grafo, 6, 23, "Bruna");
+                addUsuario(dir_grafo, 7, 20, "Predo");
+                addUsuario(dir_grafo, 8, 20, "Caio");
 
                 addArestaInsta(dir_grafo, 0 , 1);
                 addArestaInsta(dir_grafo, 0 , 7);
@@ -232,13 +232,13 @@ int main()
 
                 pessoaMaisPopular(dir_grafo);
 
-                int pessoa;
-                printf(" Digite uma pessoa(int) para descobrir sua quantidade de seguidores. ");
-                scanf("%d", &pessoa);
-                qtdeSeguidores(dir_grafo, pessoa);
+                char nome[10];
+                printf(" Digite o nome de uma pessoa para descobrir sua quantidade de seguidores. ");
+                scanf("%s", nome);
+                qtdeSeguidores(dir_grafo, nome);
 
-                printf(" --- Pessoas que seguem mais velhos --- ");
-                pessoasQueSeguemMaisVelhos(dir_grafo);
+                // printf(" --- Pessoas que seguem mais velhos --- ");
+                // pessoasQueSeguemMaisVelhos(dir_grafo);
                 break;
             }
 

@@ -5,6 +5,7 @@
 typedef struct noI{
 	int vertice;
 	int idade;
+	char *nome;
 	struct noI *prox;
 }noI;
 
@@ -90,7 +91,7 @@ int **DFS(grafo_t *grafo);
 grafoI * criaGRAFOInsta(int n);
 noI *criaNOInsta(int v);
 void addArestaInsta(grafoI *grafo, int origem, int dest);
-void addUsuario(grafoI *grafo, int no, int idade);
+void addUsuario(grafoI *grafo, int no, int idade, char* nome);
 void pessoaMaisPopular(grafoI *grafo);
-void qtdeSeguidores(grafoI *grafo, int no);
+void qtdeSeguidores(grafoI *grafo, char *nome);
 void pessoasQueSeguemMaisVelhos(grafoI *grafo);
