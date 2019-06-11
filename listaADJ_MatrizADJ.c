@@ -595,9 +595,11 @@ void qtdeSeguidores(grafoI *grafo, char *nome)
     int no = -1;
     for (int i = 0; i < grafo->num_vertices; i++)
     {   
-        printf("Nome atual %s\n", grafo->VETOR_list_adj[i].nome);
-        if ( strcmp(grafo->VETOR_list_adj[i].nome, nome) )        
+        if ( strcmp(grafo->VETOR_list_adj[i].nome, nome) == 0 )        
+        {   
             no = i;
+            break;
+        }
     }
 
     if (no == -1)
@@ -612,7 +614,9 @@ void qtdeSeguidores(grafoI *grafo, char *nome)
         while (Atual)
         {           
             if (Atual->vertice == no) 
+            {
                 seguidores += 1;
+            }
             Atual = Atual->prox;
         } 
     }
